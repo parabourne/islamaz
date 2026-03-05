@@ -1,17 +1,38 @@
+"use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+// Hikmətli sözlər bazası
+const hikmetler = [
+  { text: "Həqiqətən, çətinliklə bərabər bir asanlıq da vardır!", source: "İnşirah Surəsi, 5-ci ayə" },
+  { text: "Sizin ən xeyirliniz Quranı öyrənən və öyrədəndir.", source: "Hədis (Buxari)" },
+  { text: "Dua möminin silahıdır.", source: "Hədis (Hakim)" },
+  { text: "Allah sizin surətinizə deyil, qəlbinizə və əməllərinizə baxar.", source: "Hədis (Müslim)" },
+  { text: "Güclü o kəs deyil ki, güləşdə qalib gəlsin, güclü odur ki, qəzəblənəndə özünü ələ alsın.", source: "Hədis (Buxari)" },
+  { text: "Yalnız Allaha təvəkkül et!", source: "Talaq Surəsi, 3-cü ayə" },
+  { text: "Rəbbin səni tərk etmədi və sənə qəzəblənmədi.", source: "Duha Surəsi, 3-cü ayə" }
+];
+
 export default function Home() {
+  const [quote, setQuote] = useState(hikmetler[0]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // Səhifə brauzerdə yükləndikdən sonra işə düşür
+    setMounted(true);
+    const randomQuote = hikmetler[Math.floor(Math.random() * hikmetler.length)];
+    setQuote(randomQuote);
+  }, []);
+
   return (
     <div className="flex flex-col font-sans">
       <main className="flex-1">
-        {/* 1. Hero Section - Daha Yuxarı və Yığcam */}
+        {/* 1. Hero Section */}
         <section className="relative flex flex-col items-center justify-center px-6 pt-12 pb-16 md:pt-20 md:pb-24 text-center overflow-hidden bg-gradient-to-b from-zinc-50 to-white dark:from-zinc-950 dark:to-black">
-          {/* Dekorativ Arka Fon */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-50/40 via-transparent to-transparent dark:from-red-900/5 z-0"></div>
           
           <div className="relative z-10 max-w-4xl">
-            {/* Üst nişan */}
             <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-xs font-bold tracking-[0.2em] uppercase bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full shadow-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -20,18 +41,15 @@ export default function Home() {
               Lə İlahə İllallah
             </div>
             
-            {/* Əsas Başlıq */}
             <h1 className="text-5xl md:text-7xl font-black text-zinc-900 dark:text-zinc-50 mb-6 leading-[0.95] tracking-tighter">
-              Səhih İslam <br />
+              İslam Azərbaycan <br />
               <span className="text-red-600">Tövhid</span> Yolu
             </h1>
             
-            {/* Alt yazı */}
             <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-2xl mx-auto mb-10 font-medium">
               Qayəmiz həmvətənlərimizi tək olan Allaha ibadət etməyə çağırmaq və dinimizi xurafatlardan təmizləməkdir.
             </p>
             
-            {/* Düymələr */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/meqaleler" className="px-10 py-4 bg-red-600 text-white rounded-2xl font-bold text-lg hover:bg-red-700 transition-all hover:scale-105 shadow-xl shadow-red-600/20">
                 Məqalələri Oxu
@@ -43,7 +61,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 2. Dəyərlərimiz - Sürətli Statistika */}
+        {/* 2. Dəyərlərimiz */}
         <section className="px-6 py-12 bg-white dark:bg-black border-y border-zinc-100 dark:border-zinc-900">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -64,7 +82,7 @@ export default function Home() {
         <section className="py-20 bg-zinc-50 dark:bg-zinc-900/30">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-black mb-4 dark:text-white tracking-tighter">Tövhidin Üç Qismi</h2>
+              <h2 className="text-3xl md:text-5xl font-black mb-4 dark:text-white tracking-tighter uppercase">Tövhidin Üç Qismi</h2>
               <p className="text-zinc-500">İslamın əsasını təşkil edən tövhid anlayışını düzgün öyrənək.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -85,7 +103,6 @@ export default function Home() {
 
         {/* 4. Ayə və Namaz Paneli */}
         <section className="max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Ayə Kartı */}
           <div className="lg:col-span-7 p-10 md:p-14 bg-zinc-900 rounded-[3.5rem] text-white relative overflow-hidden shadow-2xl group">
             <div className="relative z-10">
               <h2 className="text-red-500 font-bold uppercase tracking-[0.3em] text-xs mb-8">Günün Ayəsi</h2>
@@ -103,12 +120,12 @@ export default function Home() {
             <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-red-600/10 rounded-full blur-3xl"></div>
           </div>
 
-          {/* Namaz Vaxtları Kartı */}
           <div className="lg:col-span-5 p-10 md:p-14 bg-red-600 rounded-[3.5rem] text-white shadow-2xl shadow-red-600/40">
             <div className="flex justify-between items-center mb-10">
               <h2 className="font-black uppercase tracking-widest text-sm italic">Bakı Vaxtı</h2>
               <div className="px-4 py-1 bg-black/10 rounded-full text-xs font-bold backdrop-blur-md">
-                {new Date().toLocaleDateString('az-AZ', { day: 'numeric', month: 'long' })}
+                {/* Hydration xətasının həlli burada */}
+                {mounted ? new Date().toLocaleDateString('az-AZ', { day: 'numeric', month: 'long' }) : "---"}
               </div>
             </div>
             <div className="space-y-3">
@@ -128,12 +145,39 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. Kitabxana Bölməsi */}
+        {/* 5. Günün Hikməti (Dinamik Bölmə) */}
         <section className="py-20 px-6 bg-white dark:bg-black">
+          <div className="max-w-4xl mx-auto">
+            <div className="relative p-12 md:p-16 bg-zinc-50 dark:bg-zinc-900/50 rounded-[4rem] border border-zinc-100 dark:border-zinc-800 text-center overflow-hidden group shadow-sm">
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-red-600/5 rounded-full blur-3xl group-hover:bg-red-600/10 transition-colors"></div>
+              
+              <div className="relative z-10 animate-in fade-in zoom-in duration-700">
+                <span className="inline-block px-4 py-1.5 bg-red-600 text-white text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-8">
+                  Günün Hikməti
+                </span>
+                
+                <i className="block text-2xl md:text-4xl font-serif text-zinc-800 dark:text-zinc-200 leading-tight mb-10 italic">
+                  {/* Dinamik hikmət yalnız mounted olduqdan sonra göstərilir */}
+                  "{mounted ? quote.text : "..."}"
+                </i>
+                
+                <div className="flex flex-col items-center">
+                  <div className="h-px w-12 bg-red-600 mb-4"></div>
+                  <p className="font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest text-sm">
+                    {mounted ? quote.source : ""}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. Kitabxana Bölməsi */}
+        <section className="py-20 px-6 bg-zinc-50 dark:bg-zinc-900/30">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
               <div className="max-w-xl text-left">
-                <h2 className="text-4xl font-black mb-4 dark:text-white tracking-tighter">Seçilmiş Kitablar</h2>
+                <h2 className="text-4xl font-black mb-4 dark:text-white tracking-tighter uppercase">Seçilmiş Kitablar</h2>
                 <p className="text-zinc-500 text-lg">İslam elmlərini öyrənmək üçün səhih mənbələr və tövsiyə olunan əsərlər.</p>
               </div>
               <Link href="/kitabxana" className="text-red-600 font-bold hover:underline py-2 px-4 bg-red-50 dark:bg-red-900/10 rounded-xl transition-all">Hamısına bax →</Link>
@@ -156,10 +200,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 6. Mühüm Suallar (FAQ) */}
-        <section className="py-24 bg-zinc-50 dark:bg-zinc-950">
+        {/* 7. Mühüm Suallar (FAQ) */}
+        <section className="py-24 bg-white dark:bg-black">
           <div className="max-w-4xl mx-auto px-6 text-left">
-            <h2 className="text-4xl font-black mb-16 dark:text-white border-l-8 border-red-600 pl-8 tracking-tighter">Mühüm Suallar</h2>
+            <h2 className="text-4xl font-black mb-16 dark:text-white border-l-8 border-red-600 pl-8 tracking-tighter uppercase">Mühüm Suallar</h2>
             <div className="space-y-12">
               {[
                 { q: "Şirk nədir?", a: "Şirk - Allahın uluhiyyətində, rububiyyətində və ya ad və sifətlərində Ona ortaq qoşmaqdır. Bu, İslamdan çıxaran və tövbəsiz bağışlanmayan ən böyük günahdır." },
@@ -177,17 +221,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 7. Sual-Cavab Çağırışı */}
+        {/* 8. Sual-Cavab Çağırışı */}
         <section className="px-6 py-24 text-center">
           <div className="max-w-4xl mx-auto p-12 md:p-20 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[4rem] shadow-sm relative overflow-hidden">
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-5xl font-black mb-6 dark:text-white tracking-tighter">Bir Sualınız Var?</h2>
+              <h2 className="text-4xl md:text-5xl font-black mb-6 dark:text-white tracking-tighter uppercase">Bir Sualınız Var?</h2>
               <p className="text-zinc-500 mb-12 text-lg md:text-xl max-w-xl mx-auto">İslam dini, tövhid və ya gündəlik ibadətlərlə bağlı sizi maraqlandıran sualları bizə ünvanlaya bilərsiniz.</p>
               <Link href="/elaqe" className="inline-block px-12 py-5 bg-zinc-900 dark:bg-zinc-50 dark:text-zinc-900 text-white rounded-2xl font-bold text-lg hover:bg-red-600 dark:hover:bg-red-600 dark:hover:text-white transition-all shadow-xl active:scale-95">
                 Sualını Göndər
               </Link>
             </div>
-            {/* Dekorativ dairə */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
           </div>
         </section>
